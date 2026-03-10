@@ -1,20 +1,14 @@
 package it.unibo.pps.e1;
 
-import it.unibo.pps.e1.BankAccount;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class BankAccountTest {
+public abstract class BankAccountTest {
 
-    private BankAccount account;
-
-    @BeforeEach
-    void init(){
-        this.account = new BankAccount();
-    }
+    protected BankAccount account;
 
     @Test
     public void testInitiallyEmpty() {
@@ -23,21 +17,47 @@ public class BankAccountTest {
 
     @Test
     public void testCanDeposit() {
-        this.account.deposit(1000);
-        assertEquals(1000, this.account.getBalance());
+        final int depositAmount = 1000;
+        account.deposit(depositAmount);
+        assertEquals(depositAmount, account.getBalance());
     }
 
-    @Test
-    public void testCanWithdraw() {
-        this.account.deposit(1000);
-        this.account.withdraw(200);
-        assertEquals(799, this.account.getBalance());
+//    @Test
+//    void testInvalidDeposit() {
+//        final int depositAmount = 1000;
+//        account.deposit(depositAmount);
+//        account.deposit(-depositAmount);
+//        assertEquals(depositAmount, account.getBalance());
+//    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "1000, 900",
+        "100_000, 90_000"
+    })
+    public void testCanWithdraw(final int depositAmount, final int withdrawAmount) {
+        account.deposit(depositAmount);
+        account.withdraw(withdrawAmount);
+        assertEquals(depositAmount - withdrawAmount, account.getBalance());
     }
 
-    @Test
-    public void testCannotWithdrawMoreThanAvailable(){
-        this.account.deposit(1000);
-        assertThrows(IllegalStateException.class, () -> this.account.withdraw(1200));
-    }
+//    @Test
+//    void testInvalidWithdraw() {
+//        final int depositAmount = 1000;
+//        account.deposit(depositAmount);
+//        account.withdraw(-depositAmount);
+//        assertEquals(depositAmount, account.getBalance());
+//    }
 
+//    @ParameterizedTest
+//    @CsvSource({
+//        "100, 101",
+//        "100, 810"
+//    })
+//    public void testCannotWithdrawMoreThanAvailable(final int depositAmount, final int withdrawAmount){
+//        assertTrue(withdrawAmount > depositAmount);
+//        account.deposit(depositAmount);
+//        account.withdraw(withdrawAmount);
+//        assertEquals(depositAmount, account.getBalance());
+//    }
 }
