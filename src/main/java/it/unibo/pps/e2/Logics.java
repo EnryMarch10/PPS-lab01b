@@ -1,27 +1,21 @@
 package it.unibo.pps.e2;
 
-public interface Logics{
-    
+public interface Logics {
+
     /**
-     * attempt to move Knight on position row,col, if possible
-     * 
-     * @param row
-     * @param col
-     * @return whether the pawn has been hit 
+     * attempt to move Knight on position (row, col), if possible
+     *
+     * @return whether the pawn has been hit
      */
     boolean hit(int row, int col);
-    
+
     /**
-     * @param row
-     * @param col
-     * @return whether position row,col has the knight
+     * @return whether position row, col has the knight
      */
     boolean hasKnight(int row, int col);
-    
+
     /**
-     * @param row
-     * @param col
-     * @return whether position row,col has the pawn
+     * @return whether position row, col has the pawn
      */
     boolean hasPawn(int row, int col);
 }
