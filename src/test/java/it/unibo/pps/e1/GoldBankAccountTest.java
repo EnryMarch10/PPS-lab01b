@@ -6,32 +6,30 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SilverBankAccountTest extends BankAccountTest {
+public class GoldBankAccountTest extends BankAccountTest {
 
     @BeforeEach
     void init(){
-        this.account = new SilverBankAccount(new CoreBankAccount());
-    }
-
-    @ParameterizedTest
-    @CsvSource({
-        "1000, 900",
-        "100_000, 90_000"
-    })
-    @Override
-    public void testCanWithdraw(final int depositAmount, final int withdrawAmount) {
-        assertTrue(withdrawAmount < depositAmount);
-        account.deposit(depositAmount);
-        account.withdraw(withdrawAmount);
-        assertEquals(depositAmount - withdrawAmount - SilverBankAccount.FEE_AMOUNT, account.getBalance());
+        this.account = new GoldBankAccount(new CoreBankAccount());
     }
 
     @ParameterizedTest
     @CsvSource({
         "100, 101",
-        "100, 810"
+        "100, 600"
     })
-    public void testCannotWithdrawMoreThanAvailable(final int depositAmount, final int withdrawAmount) {
+    public void testCanWithdrawMoreThanAvailableUpToFiveHundred(final int depositAmount, final int withdrawAmount) {
+        account.deposit(depositAmount);
+        account.withdraw(withdrawAmount);
+        assertEquals(account.getBalance(), depositAmount - withdrawAmount);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "100, 700",
+        "100, 601"
+    })
+    public void testCannotWithdrawMoreThanAvailablePlusFiveHundred(final int depositAmount, final int withdrawAmount) {
         assertTrue(withdrawAmount > depositAmount);
         account.deposit(depositAmount);
         assertThrows(IllegalStateException.class, () -> account.withdraw(withdrawAmount));

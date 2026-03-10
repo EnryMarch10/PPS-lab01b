@@ -6,24 +6,24 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SilverBankAccountTest extends BankAccountTest {
+public class BronzeBankAccountTest extends BankAccountTest {
 
     @BeforeEach
     void init(){
-        this.account = new SilverBankAccount(new CoreBankAccount());
+        this.account = new BronzeBankAccount(new CoreBankAccount());
     }
 
     @ParameterizedTest
     @CsvSource({
-        "1000, 900",
-        "100_000, 90_000"
+        "3000, 99",
+        "3000, 100"
     })
     @Override
     public void testCanWithdraw(final int depositAmount, final int withdrawAmount) {
         assertTrue(withdrawAmount < depositAmount);
         account.deposit(depositAmount);
         account.withdraw(withdrawAmount);
-        assertEquals(depositAmount - withdrawAmount - SilverBankAccount.FEE_AMOUNT, account.getBalance());
+        assertEquals(depositAmount - withdrawAmount - (withdrawAmount < 100 ? 0 : 1), account.getBalance());
     }
 
     @ParameterizedTest

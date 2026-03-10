@@ -36,6 +36,7 @@ public abstract class BankAccountTest {
         "100_000, 90_000"
     })
     public void testCanWithdraw(final int depositAmount, final int withdrawAmount) {
+        assertTrue(withdrawAmount <= depositAmount);
         account.deposit(depositAmount);
         account.withdraw(withdrawAmount);
         assertEquals(depositAmount - withdrawAmount, account.getBalance());
