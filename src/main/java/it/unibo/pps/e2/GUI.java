@@ -10,7 +10,7 @@ public class GUI extends JFrame {
 
     private final static int SIZE = 5;
     private static final long serialVersionUID = -6218820567019985015L;
-    private final Map<JButton,Pair<Integer,Integer>> buttons = new HashMap<>();
+    private final Map<JButton, Pair<Integer, Integer>> buttons = new HashMap<>();
     private final Logics logics;
 
     public GUI() {
@@ -23,8 +23,8 @@ public class GUI extends JFrame {
 
         ActionListener al = (e)->{
             final JButton bt = (JButton)e.getSource();
-            final Pair<Integer,Integer> pos = buttons.get(bt);
-            if (logics.hit(pos.getX(),pos.getY())) {
+            final Pair<Integer, Integer> pos = buttons.get(bt);
+            if (logics.hit(pos.getX(), pos.getY())) {
             	System.exit(0);
             } else {
                 draw();
@@ -35,7 +35,7 @@ public class GUI extends JFrame {
             for (int j=0; j<SIZE; j++){
                 final JButton jb = new JButton(" ");
                 jb.addActionListener(al);
-                this.buttons.put(jb,new Pair<>(i,j));
+                this.buttons.put(jb,new PairImpl<>(i,j));
                 panel.add(jb);
             }
         }
@@ -44,11 +44,10 @@ public class GUI extends JFrame {
     }
 
     private void draw() {
-    	for (Entry<JButton,Pair<Integer,Integer>> entry: this.buttons.entrySet()) {
+    	for (Entry<JButton, Pair<Integer, Integer>> entry: this.buttons.entrySet()) {
     		String str = logics.hasPawn(entry.getValue().getX(), entry.getValue().getY()) ? "*" :
     					 logics.hasKnight(entry.getValue().getX(), entry.getValue().getY()) ? "K" : " ";
     		entry.getKey().setText(str);
     	}
     }
-
 }

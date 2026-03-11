@@ -7,8 +7,8 @@ public class LogicTest {
 
     private final static int SIZE = 5;
     private Logics logic;
-    private final Pair<Integer, Integer> pawn = Pair.of(2, 2);
-    private final Pair<Integer, Integer> knight_start = Pair.of(0, 1);
+    private final Point pawn = Point.of(2, 2);
+    private final Point knight_start = Point.of(0, 1);
 
     @BeforeEach
     void init() {
@@ -19,8 +19,8 @@ public class LogicTest {
 
     @Test
     public void invalidGame() {
-        assertThrows(IndexOutOfBoundsException.class, () -> new LogicsImpl(SIZE, Pair.of(-1, -1), pawn));
-        assertThrows(IndexOutOfBoundsException.class, () -> new LogicsImpl(SIZE, knight_start, Pair.of(-1, -1)));
+        assertThrows(IndexOutOfBoundsException.class, () -> new LogicsImpl(SIZE, Point.of(-1, -1), pawn));
+        assertThrows(IndexOutOfBoundsException.class, () -> new LogicsImpl(SIZE, knight_start, Point.of(-1, -1)));
         assertThrows(IllegalStateException.class, () -> new LogicsImpl(SIZE, knight_start, knight_start));
     }
 

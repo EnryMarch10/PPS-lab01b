@@ -16,6 +16,9 @@ indent_style = tab
 trim_trailing_whitespace = false
 # max_line_length = off
 
+[*.puml]
+indent_size = 2
+
 # Unix scripts, JSON, YAML and JavaScript / TypeScript
 [*.{sh,json,jsonc,yml,yaml,js,ts,jsx,tsx}]
 indent_size = 2

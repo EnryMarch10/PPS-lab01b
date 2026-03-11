@@ -1,0 +1,93 @@
+@startuml
+interface Pair<X,Y> {
+  +getX(): X
+  +getY(): Y
+}
+
+class PairImpl<X,Y> {
+  -x: X
+  -y: Y
+}
+
+PairImpl ..|> Pair
+
+interface Point<Integer,Integer>{
+  +getX(): Integer
+  +getY(): Integer
+}
+
+Point --|> Pair
+
+class PointImpl<Integer,Integer>{
+  -x: Integer
+  -y: Integer
+}
+
+PointImpl ..|> Point
+PointImpl --|> PairImpl
+
+interface Pawn{
+  +getX(): Integer
+  +getY(): Integer
+}
+
+interface Knight {
+  +getX(): Integer
+  +getY(): Integer
+  +isMoveValid(row:int,col:int): boolean
+}
+
+Pawn --|> Point
+Knight --|> Point
+
+class PawnImpl
+class KnightImpl
+
+PawnImpl ..|> Pawn
+PawnImpl --|> PointImpl
+
+KnightImpl ..|> Knight
+KnightImpl --|> PointImpl
+
+interface Board {
+  +isValid(point: Point): boolean
+  +getRandomPosition(): Point
+}
+
+class BoardImpl {
+  -side: int
+}
+
+BoardImpl ..|> Board
+
+interface Logics {
+  +hit(row: int, col: int): boolean
+  +hasKnight(row: int, col: int): boolean
+  +hasPawn(row: int, col: int): boolean
+}
+
+class LogicsImpl {
+  -board: Board
+  -knight: Knight
+  -pawn: Pawn
+}
+
+LogicsImpl ..|> Logics
+LogicsImpl --> Board
+LogicsImpl --> Knight
+LogicsImpl --> Pawn
+
+class GUI {
+  -buttons : Map<JButton, Pair<Integer,Integer>>
+  -logics : Logics
+}
+
+GUI --> Logics
+GUI --> Pair
+
+class Main {
+  {static} main(): void
+}
+
+Main --> GUI
+@enduml
